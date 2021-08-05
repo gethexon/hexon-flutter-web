@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoute.signup);
+              Navigator.of(context).pushReplacementNamed(AppRoute.signup);
             },
             child: Text(
               "注册",
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoute.signin);
+              Navigator.of(context).pushReplacementNamed(AppRoute.signin);
             },
             child: Text(
               "登录",

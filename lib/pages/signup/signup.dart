@@ -1,5 +1,3 @@
-import 'package:cherry_toast/cherry_toast.dart';
-import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hexon_flutter_web/api/leancloud/user_api.dart';
@@ -85,24 +83,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           EasyLoading.dismiss();
                           if (value.isSuccess) {
                             EasyLoading.showSuccess('注册成功，请登录');
-
-                            // CherryToast.success(
-                            //   title: "注册成功，请登录",
-                            //   animationType: ANIMATION_TYPE.FROM_TOP,
-                            //   animationDuration: Duration(milliseconds: 1000),
-                            //   autoDismiss: true,
-                            // ).show(context);
-                            Navigator.of(context).pushNamed(AppRoute.signin);
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoute.signin);
                           } else {
                             EasyLoading.showError(value.errorMessage);
-                            // CherryToast.error(
-                            //   title: "错误",
-                            //   displayTitle: true,
-                            //   description: value.errorMessage,
-                            //   animationType: ANIMATION_TYPE.FROM_TOP,
-                            //   animationDuration: Duration(milliseconds: 1000),
-                            //   autoDismiss: true,
-                            // ).show(context);
                           }
                         });
                       }
