@@ -16,4 +16,14 @@ class UserApi {
       "email": email,
     });
   }
+
+  Future<ApiResponseModel> me() async {
+    return BaseApi().get_with_auth('/1.1/users/me');
+  }
+
+  Future<ApiResponseModel> requestEmailVerify(String email) async {
+    return BaseApi().post('/1.1/requestEmailVerify', {
+      "email": email,
+    });
+  }
 }

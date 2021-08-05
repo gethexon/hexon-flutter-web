@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hexon_flutter_web/api/base_model/base_model.dart';
 import 'package:hexon_flutter_web/api/leancloud/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseApi {
   Future<ApiResponseModel> post(String url, dynamic data) async {
@@ -19,7 +20,36 @@ class BaseApi {
       );
       print(response);
       if (200 <= response.statusCode! && response.statusCode! < 300) {
-        return ApiResponseModel(isSuccess: true);
+        return ApiResponseModel(isSuccess: true, message: response.data);
+      } else {
+        return ApiResponseModel(isSuccess: false, errorMessage: "");
+      }
+    } on DioError catch (e) {
+      return ApiResponseModel(
+          isSuccess: false, errorMessage: e.response!.data['error']);
+    } catch (e) {
+      return ApiResponseModel(isSuccess: false, errorMessage: e.toString());
+    }
+  }
+
+  Future<ApiResponseModel> get_with_auth(String url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var options = Options(
+      headers: {
+        'X-LC-Id': apiAppId,
+        'X-LC-Key': apiAppKey,
+        'X-LC-Session': prefs.getString('sessionToken'),
+        Headers.contentTypeHeader: Headers.jsonContentType,
+      },
+    );
+    try {
+      var response = await Dio().get(
+        apiBaseUrl + url,
+        options: options,
+      );
+      print(response);
+      if (200 <= response.statusCode! && response.statusCode! < 300) {
+        return ApiResponseModel(isSuccess: true, message: response.data);
       } else {
         return ApiResponseModel(isSuccess: false, errorMessage: "");
       }

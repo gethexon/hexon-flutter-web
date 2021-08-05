@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hexon_flutter_web/api/leancloud/user_api.dart';
 import 'package:hexon_flutter_web/routes/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -64,9 +65,13 @@ class _SignInPageState extends State<SignInPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         EasyLoading.show(status: '请求中...');
-                        UserApi().signin(email, password).then((value) {
+                        UserApi().signin(email, password).then((value) async {
                           EasyLoading.dismiss();
                           if (value.isSuccess) {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString(
+                                'sessionToken', value.message['sessionToken']);
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoute.dashboard);
                           } else {
