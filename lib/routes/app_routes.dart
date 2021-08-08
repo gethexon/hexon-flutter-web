@@ -34,10 +34,12 @@ class AppRoute {
 
   Map<String, WidgetBuilder>? _routes;
   get routes => _routes;
-  static const String initialRoute = home;
+  static const String initialRoute = dashboard;
+  // static const String initialRoute = home;
 
   static const String home = '/';
   static const String signin = '/signin';
   static const String signup = '/signup';
   static const String dashboard = '/dashboard';
+  static const String platform_add_github = '/platform/add/github';
 }

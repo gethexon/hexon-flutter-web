@@ -1,5 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:hexon_flutter_web/pages/dashboard/dashboard.dart';
+import 'package:hexon_flutter_web/pages/dashboard/platform/add_platform_github.dart';
 import 'package:hexon_flutter_web/pages/public/error.dart';
 import 'package:hexon_flutter_web/pages/public/home.dart';
 import 'package:hexon_flutter_web/pages/signin/signin.dart';
@@ -13,6 +16,7 @@ class WebRoute {
       AppRoute.signin: (context) => SignInPage(),
       AppRoute.signup: (context) => SignUpPage(),
       AppRoute.dashboard: (context) => DashBoardPage(),
+      AppRoute.platform_add_github: (context) => AddGithubPlaftormPage(),
     };
   }
 

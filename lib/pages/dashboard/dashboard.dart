@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hexon_flutter_web/api/leancloud/platform_api.dart';
 import 'package:hexon_flutter_web/api/leancloud/user_api.dart';
 import 'package:hexon_flutter_web/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ class DashBoardPage extends StatefulWidget {
 class _DashBoardPageState extends State<DashBoardPage> {
   bool loading = true;
   bool emailVerified = true;
+  bool emptyPlatform = false;
   String email = '';
 
   @override
@@ -31,6 +33,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
     }
     emailVerified = meResponse.message['emailVerified'];
     email = meResponse.message['email'];
+    var platformResponse =
+        await PlatformApi().getMyPlatforms(meResponse.message['objectId']);
+    print(platformResponse.message);
+    if (!platformResponse.isSuccess) {
+      if (platformResponse.message == '') {
+        emptyPlatform = true;
+      }
+    }
     loading = false;
     setState(() {});
   }
@@ -93,7 +103,31 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   ],
                 ),
               ),
+        emptyPlatform ? emptyPlatformWidget() : platformWidget(),
       ],
     );
+  }
+
+  Widget emptyPlatformWidget() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("请选择需要添加的平台"),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoute.platform_add_github);
+            },
+            child: Text("Github"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget platformWidget() {
+    return SizedBox();
   }
 }
